@@ -180,30 +180,34 @@ else
   exit 1
 fi
 
-echo -e "${WHITE}Erstelle Keystore zum Signieren der gepatchten APK Datei ...${NORMAL}"
-keytool -genkey -v -keystore /tmp/libre-keystore.p12 -storetype PKCS12 -alias "Libre Signer" -keyalg RSA -keysize 2048 --validity 10000 --storepass geheim --keypass geheim -dname "cn=Libre Signer, c=de"
-if [ $? = 0 ]; then
+if [ ! -f tools/libre-keystore.p12 ]; then
+ echo -e "${WHITE}Erstelle Keystore zum Signieren der gepatchten APK Datei ...${NORMAL}"
+ keytool -genkey -v -keystore tools/libre-keystore.p12 -storetype PKCS12 -alias "Libre Signer" -keyalg RSA -keysize 2048 --validity 10000 --storepass geheim --keypass geheim -dname "cn=Libre Signer, c=de"
+ if [ $? = 0 ]; then
   echo -e "${GREEN}  okay.${NORMAL}"
   echo
-else
+ else
   echo -e "${RED}  nicht okay.${NORMAL}"
   echo
   echo -e "${YELLOW}=> Bitte prüfen Sie o.a. Fehler.${NORMAL}"
   exit 1
+ fi
+else
+ echo -e "${WHITE}Verwende existierenden Keystore zum Signieren der gepatchten APK Datei ...${NORMAL}"
 fi
 
 echo -e "${WHITE}Signiere gepatchte APK Datei ...${NORMAL}"
 if [ -x /usr/lib/android-sdk/build-tools/debian/apksigner.jar ]; then
-  java -jar /usr/lib/android-sdk/build-tools/debian/apksigner.jar sign --ks-pass pass:geheim --ks /tmp/libre-keystore.p12 APK/${FILENAME}_patched.apk
+  java -jar /usr/lib/android-sdk/build-tools/debian/apksigner.jar sign --ks-pass pass:geheim --ks tools/libre-keystore.p12 APK/${FILENAME}_patched.apk
 elif [ -x /usr/share/apksigner/apksigner.jar ]; then
-  java -jar /usr/share/apksigner/apksigner.jar sign --ks-pass pass:geheim --ks /tmp/libre-keystore.p12 APK/${FILENAME}_patched.apk
+  java -jar /usr/share/apksigner/apksigner.jar sign --ks-pass pass:geheim --ks tools/libre-keystore.p12 APK/${FILENAME}_patched.apk
 else
-  apksigner sign --ks-pass pass:geheim --ks /tmp/libre-keystore.p12 APK/${FILENAME}_patched.apk
+  apksigner sign --ks-pass pass:geheim --ks tools/libre-keystore.p12 APK/${FILENAME}_patched.apk
 fi
 if [ $? = 0 ]; then
   echo -e "${GREEN}  okay.${NORMAL}"
   echo
-  rm /tmp/libre-keystore.p12
+  # libre-keystore.p12 nicht entfernen!
 else
   echo -e "${RED}  nicht okay.${NORMAL}"
   echo
