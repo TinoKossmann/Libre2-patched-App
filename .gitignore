@@ -1,2 +1,10 @@
-tools/
+# Downloaded and built application files
 *.apk
+*.html
+*.log
+
+# Downloaded tools
+tools/
+
+# Internal stuff
+.??*
