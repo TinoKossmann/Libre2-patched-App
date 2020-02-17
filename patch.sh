@@ -75,8 +75,16 @@ else
   exit 1
 fi
 
-echo -e "${WHITE}Prüfe MD5 Summe der APK Datei ...${NORMAL}"
-md5sum -c APK/${FILENAME}.apk.md5 > /dev/null 2>&1
+if [ -f APK/${FILENAME}.apk.md5 ]; then
+  echo -e "${WHITE}Prüfe MD5 Summe der APK Datei ...${NORMAL}"
+  md5sum -c APK/${FILENAME}.apk.md5 > /dev/null 2>&1
+elif [ -f APK/${FILENAME}.apk.sha1 ]; then
+  echo -e "${WHITE}Prüfe SHA1 Summe der APK Datei ...${NORMAL}"
+  sha1sum -c APK/${FILENAME}.apk.sha1 > /dev/null 2>&1
+else
+  echo -e "${YELLOW}Keine Prüfung der APK Datei ...${NORMAL}"
+  true
+fi
 if [ $? = 0 ]; then
   echo -e "${GREEN}  okay.${NORMAL}"
   echo
