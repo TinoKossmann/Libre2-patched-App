@@ -162,7 +162,7 @@ cd librelink
 4. Enter to docker debian image
 
 ```
-docker run -it --entrypoint bash -v «$(pwd):/apk"  debian:bullseye
+docker run -it --entrypoint bash -v "$(pwd):/apk"  debian:bullseye
 ```
 
 5. Execute following commands inside docker-image
