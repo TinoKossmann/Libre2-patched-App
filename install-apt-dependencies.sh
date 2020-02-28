@@ -11,7 +11,7 @@ WORKDIR=$(pwd)
 FILENAME='com.freestylelibre.app.de_2019-04-22'
 
 echo -e "${WHITE}Installiere benötigte Tools ...${NORMAL}"
-sudo apt-get install git wget apksigner zipalign android-framework-res
+sudo apt-get install -y git wget apksigner zipalign android-framework-res
 if [ $? = 0 ]; then
   echo -e "${GREEN}  okay.${NORMAL}"
   echo
