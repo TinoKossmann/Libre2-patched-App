@@ -1,3 +1,0 @@
-
-docker build . -t libre
-docker run -ti -v /Users/thomas/Desktop/Docker:/hostDir libre /bin/bash
