@@ -147,3 +147,41 @@ http://www.winmd5.com to perform md5 checksumming). The Checksum should be: `420
 If all Steps where succesfully executed, you will have now a patched librelink app, capable of sending its data to [xDrip](https://github.com/jamorham/xDrip-plus).
 
 Wait for more informations about which Version/Patches you need for xDrip to get the Data to Display!
+
+# Get patched version on macOS Terminal using Docker
+
+1. Install [Docker](https://www.docker.com/products/docker-desktop)
+
+2. Open Terminal
+
+3. Make dir for result
+
+```
+mkdir librelink
+cd librelink
+```
+
+4. Enter to docker debian image
+
+```
+docker run -it --entrypoint bash -v "$(pwd):/apk"  debian:bullseye
+```
+
+5. Execute following commands inside docker-image
+
+```
+apt-get update
+apt-get install -y sudo git
+git clone https://github.com/TinoKossmann/LibreLink-xDrip-Patch.git
+cd LibreLink-xDrip-Patch
+yes | ./install-apt-dependencies.sh
+./download.sh
+./patch.sh
+cp APK/com.freestylelibre.app.de_2019-04-22_patched.apk ../apk
+exit
+```
+
+6. You will find in current directory file `com.freestylelibre.app.de_2019-04-22_patched.apk`
+
+
+
