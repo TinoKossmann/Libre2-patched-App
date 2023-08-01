@@ -80,7 +80,7 @@ Eine gute Anleitung zum Umgang mit xDrip+ in Verbindung mit der gepatchten App f
 
 # Original Anleitung in Englisch #
 
-# How to patch the Librelink app to provide xDrip with Value received by bluetooth directly from sensor
+# How to patch the Librelink app to provide xDrip with Value received by bluetooth directly from sensor (Manual)
 
 
 **IF YOU WANT TO USE THIS, YOU NEED TO ACTIVATE A NEW SENSOR AFTER THE INSTALLATION PROCEDURE IS COMPLETED, IT DOES NOT WORK WITH ALLREADY ACTIVATED SENSORS!!**
@@ -142,6 +142,26 @@ http://www.winmd5.com to perform md5 checksumming). The Checksum should be: `420
 6. Copy the generated `librelink.apk` to your phone (USB, google drive, ... gmail will not work) and install it.
 
 ## Finished
+
+# How to patch the Librelink app to provide xDrip with Value received by bluetooth directly from sensor (with Distrobox and scripts)
+## Installing Distrobox:
+https://github.com/89luca89/distrobox#installation
+## Creating a Distrobox environment (you may need to add --root to every distrobox commmand: https://github.com/89luca89/distrobox#security-implications):
+1. Creating a Distrobox environment (replace "name of distrobox environment" with a name for the new Distrobox environment): `distrobox create --name "name of distrobox environment" --image docker.io/library/debian:stable`
+2. Entering the Distrobox environment replace "name of distrobox environment" with the name you chose before): `distrobox enter "name of the distrobox environment"`
+## Cloning this git repo for all the necessary files and scripts
+1. make sure you are in a path without spaces
+2. Installing git: `sudo apt install git -y`
+3. Cloning this git repo: `git clone https://github.com/TinoKossmann/LibreLink-xDrip-Patch`
+## Running scripts
+1. change in the directory: `cd LibreLink-xDrip-Patch`
+2. run the script "install-apt-dependencies.sh": `./install-apt-dependencies.sh`
+3. run the script "download.sh": `./download.sh`
+4. run the script "path.sh": `./path.sh`
+5. when the scripts are done and they ran successfully the new APK is found in the APK folder.
+
+
+# Further steps
 **Open the app, go to "Alarms" and give all necessary permissions that the app requests, or else the first sensor you will start with the app will not transmit any data via Bluetooth!!!** As an alternative, you can navigate to the app in your android-settings -> security and enbale there all permission (Location and Files)
 
 If all Steps where succesfully executed, you will have now a patched librelink app, capable of sending its data to [xDrip](https://github.com/jamorham/xDrip-plus).
